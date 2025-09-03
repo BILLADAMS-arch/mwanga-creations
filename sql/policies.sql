@@ -1,0 +1,2 @@
+-- This file is separated for clarity if you run policies after tables.
+-- See schema.sql for the same content.
