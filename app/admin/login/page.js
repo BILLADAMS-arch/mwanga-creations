@@ -1,6 +1,5 @@
 "use client";
 
-import Header from "@/components/Header";
 import { supabase } from "@/lib/supabaseClient";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -19,15 +18,31 @@ export default function AdminLogin() {
   }
 
   return (
-    <main>
-      <Header />
-      <h1 className="text-3xl mb-4">Admin Login</h1>
-      <form onSubmit={onLogin} className="max-w-md space-y-3">
-        <input className="border rounded-xl p-2 w-full" type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} />
-        <input className="border rounded-xl p-2 w-full" type="password" placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)} />
-        <button className="btn btn-primary">Login</button>
-        {msg && <p className="text-red-600">{msg}</p>}
-      </form>
+    <main className="login-page">
+      <div className="login-container">
+        <form onSubmit={onLogin} className="login-form">
+          <h1 className="login-title">Admin Login</h1>
+
+          <input
+            className="login-input"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <input
+            className="login-input"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+
+          <button className="login-btn" type="submit">Login</button>
+
+          {msg && <p className="login-msg">{msg}</p>}
+        </form>
+      </div>
     </main>
   );
 }
