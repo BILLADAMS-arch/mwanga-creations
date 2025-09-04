@@ -1,6 +1,5 @@
 "use client";
 
-import Header from "@/components/Header";
 import Filters from "@/components/Filters";
 import ProductCard from "@/components/ProductCard";
 import { supabase } from "@/lib/supabaseClient";
@@ -14,7 +13,10 @@ export default function Products() {
   useEffect(() => {
     async function load() {
       setLoading(true);
-      let query = supabase.from("products").select("*").order("created_at", { ascending: false });
+      let query = supabase
+        .from("products")
+        .select("*")
+        .order("created_at", { ascending: false });
       const { data, error } = await query;
       if (!error && data) setProducts(data);
       setLoading(false);
@@ -22,7 +24,7 @@ export default function Products() {
     load();
   }, []);
 
-  const filtered = products.filter(p => {
+  const filtered = products.filter((p) => {
     if (filters.category && p.category !== filters.category) return false;
     if (filters.brand && !p.brand.toLowerCase().includes(filters.brand.toLowerCase())) return false;
     if (filters.query) {
@@ -34,16 +36,21 @@ export default function Products() {
   });
 
   return (
-    <main>
-      <Header />
-      <h1 className="text-3xl mb-4">Products</h1>
-      <Filters onChange={setFilters} />
+    <main className="products-page">
+      <h1 className="products-title">Products</h1>
+      <div className="filters-container">
+        <Filters onChange={setFilters} />
+      </div>
+
       {loading ? (
-        <p>Loading...</p>
+        <p className="status-message">Loading...</p>
       ) : (
-        <div className="grid md:grid-cols-3 gap-6">
-          {filtered.map(p => <ProductCard key={p.id} product={p} />)}
-          {filtered.length === 0 && <p>No products match your filters.</p>}
+        <div className="products-grid">
+          {filtered.length > 0 ? (
+            filtered.map((p) => <ProductCard key={p.id} product={p} />)
+          ) : (
+            <p className="status-message">No products match your filters.</p>
+          )}
         </div>
       )}
     </main>
